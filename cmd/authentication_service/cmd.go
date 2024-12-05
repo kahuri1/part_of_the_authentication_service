@@ -1,4 +1,4 @@
-package authentication_service
+package main
 
 import (
 	authServer "github.com/kahuri1/part_of_the_authentication_service"
