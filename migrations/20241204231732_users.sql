@@ -5,9 +5,9 @@ SELECT 'up SQL query';
 CREATE TABLE IF NOT EXISTS users (
 id SERIAL PRIMARY KEY,
 uuid UUID NOT NULL UNIQUE,
-username VARCHAR(50) NOT NULL UNIQUE,
-password_hash VARCHAR(255) NOT NULL,
-email VARCHAR(100) NOT NULL UNIQUE,
+name VARCHAR(64) NOT NULL UNIQUE,
+password_hash VARCHAR(64) NOT NULL,
+email VARCHAR(64) NOT NULL UNIQUE,
 created_at timestamp default now() not null,
 updated_at timestamp default now() not null
 );

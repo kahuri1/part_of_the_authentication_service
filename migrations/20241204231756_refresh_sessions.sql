@@ -4,11 +4,11 @@ SELECT 'up SQL query';
 -- +goose StatementEnd
 CREATE TABLE IF NOT EXISTS refreshSessions (
 id SERIAL PRIMARY KEY,
-userId uuid REFERENCES users(id) ON DELETE CASCADE,
-refreshToken uuid NOT NULL,
+user_uuid uuid REFERENCES users(uuid) ON DELETE CASCADE,
+refresh_token uuid NOT NULL,
 ip character varying(15) NOT NULL,
-expiresIn bigint NOT NULL,
-createdAt timestamp default now() not null
+expires_at timestamp NOT NULL,
+created_at timestamp default now() not null
 );
 -- +goose Down
 -- +goose StatementBegin

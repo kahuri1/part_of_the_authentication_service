@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
-	"github.com/kahuri1/part_of_the_authentication_service/pkg/model"
+	"github.com/kahuri1/part_of_the_authentication_service/iternal/model"
 	"github.com/pressly/goose"
 	"github.com/sirupsen/logrus"
 )
