@@ -37,11 +37,8 @@ func main() {
 	salt := "#$%&@^#HDJhHDY#@"
 	hasher := hash.NewSHA1Hasher(salt)
 	otpGenerator := otp.NewGOTPGenerator()
-	emailSender := email.NewSMTPEmailSender(
-		viper.GetString("email.server"),
-		viper.GetString("email.port"),
-		viper.GetString("email.email"),
-		viper.GetString("email.password"))
+	emailSender := email.NewSMTPEmailSender("aspmx.l.google.com", "25",
+		"vova150820@gmail.com", "nubb nosq kjze jboe")
 	services := service.NewService(repos, hasher, otpGenerator, emailSender)
 	handlers := handler.Newhandler(services)
 
