@@ -20,3 +20,34 @@
 ```bash
   go mod tidy
 ```
+3. Поднимите Docker
+```bash
+   docker-compose up
+```
+4. В папке Configs создайте config.yml и скопируйте настройки:
+```bash
+port: "8000"
+
+db:
+  username: "myuser"
+  host:     "localhost"
+  port:     "5432"
+  dbname:   "part_auth"
+  sslmode:  "disable"
+  password: "mypassword"
+
+auth:
+  accessTokenTTL: 15m
+  refreshTokenTTL: 30m
+  verificationCodeLength: 10
+
+key:
+  secretKey: "Ваш секретный ключ"
+
+
+email :
+  email: "Почта с который будут идти уведомления"
+  password: "пароль приложения (я делал через него)"
+  server: "Сервер"
+  port: "порт"
+```
