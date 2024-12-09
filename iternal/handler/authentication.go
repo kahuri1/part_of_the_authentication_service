@@ -42,6 +42,9 @@ func (h *Handler) RefreshTokenHandler(c *gin.Context) {
 		return
 	}
 	ip := c.ClientIP()
+	if ip == "::1" {
+		ip = "127.0.0.1"
+	}
 	tokens, err := h.service.RefreshTokenService(token, ip)
 	if err != nil {
 		newResponse(c, http.StatusBadRequest, err.Error())

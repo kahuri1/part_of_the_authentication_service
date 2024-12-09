@@ -14,8 +14,6 @@ import (
 	"github.com/spf13/viper"
 )
 
-var secretKey = []byte("EFFVKC:NRJKVNPWELND")
-
 func main() {
 	logrus.SetFormatter(new(logrus.JSONFormatter))
 
@@ -33,15 +31,20 @@ func main() {
 	if err != nil {
 		logrus.Errorf("Failed initialization db: %s", err.Error())
 	}
+
 	repos := repository.NewRepository(db)
+
 	salt := "#$%&@^#HDJhsdfDFWFWEFDSFWEHDY#@"
 	hasher := hash.NewSHA1Hasher(salt)
+
 	otpGenerator := otp.NewGOTPGenerator()
+
 	emailSender := email.NewSMTPEmailSender(
 		viper.GetString("email.server"),
 		viper.GetString("email.port"),
 		viper.GetString("email.email"),
 		viper.GetString("email.password"))
+
 	services := service.NewService(repos, hasher, otpGenerator, emailSender)
 	handlers := handler.Newhandler(services)
 

@@ -58,4 +58,5 @@ type RefreshSession struct {
 	Ip           string
 	ExpiresAt    time.Time
 	CreatedAt    time.Time
+	Email        string
 }

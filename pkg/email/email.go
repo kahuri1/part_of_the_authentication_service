@@ -7,7 +7,7 @@ import (
 
 type EmailSender interface {
 	SendVerificationCode(to string, code string) error
-	WarningMessageIP(ip string) error
+	WarningMessageIP(ip, email string) error
 }
 
 type SMTPEmailSender struct {
@@ -37,7 +37,13 @@ func (e *SMTPEmailSender) SendVerificationCode(to string, code string) error {
 	return smtp.SendMail(addr, auth, e.Username, []string{to}, message)
 }
 
-func (e *SMTPEmailSender) WarningMessageIP(ip string) error {
-	//TODO Дописать код
-	return nil
+func (e *SMTPEmailSender) WarningMessageIP(ip, email string) error {
+
+	subject := "Подозрительная попытка входа"
+	body := fmt.Sprintf("Произведен вход в вашу учетную запись с ip: %s", ip)
+	message := []byte(fmt.Sprintf("Subject: %s\r\n\r\n%s", subject, body))
+	auth := smtp.PlainAuth("", e.Username, e.Password, e.SMTPServer)
+	addr := fmt.Sprintf("%s:%s", e.SMTPServer, e.Port)
+
+	return smtp.SendMail(addr, auth, e.Username, []string{email}, message)
 }

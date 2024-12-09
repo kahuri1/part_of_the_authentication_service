@@ -76,7 +76,7 @@ func (s *Service) RefreshTokenService(Token model.Tokens, ip string) (model.Toke
 	if err != nil {
 		return model.Tokens{}, err
 	}
-	if isExpired(dataSession.ExpiresAt) {
+	if time.Now().After(dataSession.ExpiresAt) {
 		return model.Tokens{}, errors.New("refresh token expired, log in again")
 	}
 	accessToken, err := createJwt(model.AuthenticationRequest{
@@ -93,7 +93,7 @@ func (s *Service) RefreshTokenService(Token model.Tokens, ip string) (model.Toke
 
 	if ip != dataSession.Ip {
 		go func() {
-			err = s.emailSender.WarningMessageIP(ip)
+			err = s.emailSender.WarningMessageIP(ip, dataSession.Email)
 			if err != nil {
 				fmt.Printf("Failed to send warning email: %v\n", err)
 			}
@@ -107,8 +107,4 @@ func (s *Service) RefreshTokenService(Token model.Tokens, ip string) (model.Toke
 	return model.Tokens{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken}, nil
-}
-
-func isExpired(expiresAt time.Time) bool {
-	return time.Now().After(expiresAt)
 }

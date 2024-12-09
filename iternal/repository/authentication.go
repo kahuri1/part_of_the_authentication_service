@@ -32,9 +32,10 @@ func (r *Repository) GetRefreshSessionByRefreshTokenRepo(token model.Tokens) (mo
 	var session model.RefreshSession
 
 	sql, args, err := sq.
-		Select("user_uuid, ip, refresh_token, expires_at, created_at").
-		From("refreshSessions").
-		Where(sq.Eq{"refresh_token": token.RefreshToken}).
+		Select("rs.user_uuid, rs.ip, rs.refresh_token, rs.expires_at, rs.created_at, u.email").
+		From("refreshSessions rs").
+		Join("users u ON rs.user_uuid = u.uuid").
+		Where(sq.Eq{"rs.refresh_token": token.RefreshToken}).
 		PlaceholderFormat(sq.Dollar).
 		ToSql()
 
@@ -42,7 +43,7 @@ func (r *Repository) GetRefreshSessionByRefreshTokenRepo(token model.Tokens) (mo
 		return session, fmt.Errorf("failed to create query to get refresh session: %w", err)
 	}
 
-	err = r.db.QueryRow(sql, args...).Scan(&session.UserUuid, &session.Ip, &session.RefreshToken, &session.ExpiresAt, &session.CreatedAt)
+	err = r.db.QueryRow(sql, args...).Scan(&session.UserUuid, &session.Ip, &session.RefreshToken, &session.ExpiresAt, &session.CreatedAt, &session.Email)
 	if err != nil {
 
 		return session, fmt.Errorf("failed to execute query to get refresh session: %w", err)
