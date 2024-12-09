@@ -17,7 +17,7 @@ func (h *Handler) UserSingUpInput(c *gin.Context) {
 		return
 	}
 
-	if err := h.service.SignUp(c.Request.Context(), input); err != nil {
+	if err := h.service.SignUpService(c.Request.Context(), input); err != nil {
 		if errors.Is(err, domain.ErrUserAlreadyExists) {
 			newResponse(c, http.StatusBadRequest, err.Error())
 		}

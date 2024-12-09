@@ -5,12 +5,14 @@ SELECT 'up SQL query';
 CREATE TABLE IF NOT EXISTS users (
 id SERIAL PRIMARY KEY,
 uuid UUID NOT NULL UNIQUE,
-name VARCHAR(64) NOT NULL UNIQUE,
+name VARCHAR(64) NOT NULL ,
 password_hash VARCHAR(64) NOT NULL,
 email VARCHAR(64) NOT NULL UNIQUE,
 created_at timestamp default now() not null,
 updated_at timestamp default now() not null
 );
+
+
 -- +goose Down
 -- +goose StatementBegin
 SELECT 'down SQL query';

@@ -24,7 +24,7 @@ func (h *Handler) AuthenticationHandler(c *gin.Context) {
 	//	return
 	//}
 
-	tokens, err := h.service.Authentication(auth)
+	tokens, err := h.service.AuthenticationService(auth)
 	if err != nil {
 		newResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -33,7 +33,7 @@ func (h *Handler) AuthenticationHandler(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"tokens": tokens})
 }
 
-func (h *Handler) RefreshToken(c *gin.Context) {
+func (h *Handler) RefreshTokenHandler(c *gin.Context) {
 	var token model.Tokens
 	d, err := c.GetRawData()
 	err = json.Unmarshal(d, &token)
@@ -42,7 +42,7 @@ func (h *Handler) RefreshToken(c *gin.Context) {
 		return
 	}
 	ip := c.ClientIP()
-	tokens, err := h.service.RefreshToken(token, ip)
+	tokens, err := h.service.RefreshTokenService(token, ip)
 	if err != nil {
 		newResponse(c, http.StatusBadRequest, err.Error())
 		return

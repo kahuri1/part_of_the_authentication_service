@@ -5,12 +5,12 @@ import (
 	"github.com/kahuri1/part_of_the_authentication_service/iternal/model"
 )
 
-func (r *Repository) Create(ctx context.Context, user model.User) error {
+func (r *Repository) CreateRepo(ctx context.Context, user model.User) error {
 
 	return nil
 }
 
-func (r *Repository) CheckUser(uuid string) error {
+func (r *Repository) CheckUserRepo(uuid string) error {
 
 	return nil
 }

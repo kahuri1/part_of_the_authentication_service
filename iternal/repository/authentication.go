@@ -1,14 +1,16 @@
 package repository
 
 import (
+	sql2 "database/sql"
 	"fmt"
 	sq "github.com/Masterminds/squirrel"
+	"github.com/kahuri1/part_of_the_authentication_service/iternal/domain"
 	"github.com/kahuri1/part_of_the_authentication_service/iternal/model"
 	"github.com/spf13/viper"
 	"time"
 )
 
-func (r *Repository) CreateSession(auth model.AuthenticationRequest, refreshToken string) error {
+func (r *Repository) CreateSessionRepo(auth model.AuthenticationRequest, refreshToken string) error {
 	sql, args, err := sq.
 		Insert("refreshSessions").
 		Columns("user_uuid", "ip", "refresh_token", "expires_at", "created_at").
@@ -26,7 +28,7 @@ func (r *Repository) CreateSession(auth model.AuthenticationRequest, refreshToke
 	return nil
 }
 
-func (r *Repository) GetRefreshSessionByRefreshToken(token model.Tokens) (model.RefreshSession, error) {
+func (r *Repository) GetRefreshSessionByRefreshTokenRepo(token model.Tokens) (model.RefreshSession, error) {
 	var session model.RefreshSession
 
 	sql, args, err := sq.
@@ -49,12 +51,12 @@ func (r *Repository) GetRefreshSessionByRefreshToken(token model.Tokens) (model.
 	return session, nil
 }
 
-func (r *Repository) UpdateRefreshSession(auth model.AuthenticationRequest, refreshToken string) error {
+func (r *Repository) UpdateRefreshSessionRepo(uuid, ip, refreshToken string) error {
 	sql, args, err := sq.
 		Update("refreshSessions").
 		Set("refresh_token", refreshToken).
 		Set("expires_at", time.Now().Add(viper.GetDuration("auth.refreshTokenTTL"))).
-		Where(sq.Eq{"user_uuid": auth.Uuid}).
+		Where(sq.Eq{"user_uuid": uuid}).
 		PlaceholderFormat(sq.Dollar).
 		ToSql()
 
@@ -68,4 +70,26 @@ func (r *Repository) UpdateRefreshSession(auth model.AuthenticationRequest, refr
 	}
 
 	return nil
+}
+
+func (r *Repository) CheckSessionByUuidUserRepo(uuid string) (model.RefreshSession, error) {
+	var session model.RefreshSession
+	sql, args, err := sq.
+		Select("user_uuid, ip, refresh_token, expires_at, created_at").
+		From("refreshSessions").
+		Where(sq.Eq{"user_uuid": uuid}).
+		PlaceholderFormat(sq.Dollar).
+		ToSql()
+	if err != nil {
+		return session, fmt.Errorf("failed to create query to check session by user UUID: %w", err)
+	}
+	err = r.db.QueryRow(sql, args...).Scan(&session.UserUuid, &session.Ip, &session.RefreshToken, &session.ExpiresAt, &session.CreatedAt)
+
+	if err != nil {
+		if err == sql2.ErrNoRows {
+			return session, nil
+		}
+		return session, fmt.Errorf("failed to execute query to check session by user UUID: %w", err)
+	}
+	return session, domain.ErrSessionOpen
 }

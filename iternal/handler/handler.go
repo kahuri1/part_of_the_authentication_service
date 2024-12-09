@@ -7,9 +7,9 @@ import (
 )
 
 type partAuthService interface {
-	SignUp(ctx context.Context, input model.UserSignUpInput) error
-	Authentication(request model.AuthenticationRequest) (model.Tokens, error)
-	RefreshToken(token model.Tokens, ip string) (model.Tokens, error)
+	SignUpService(ctx context.Context, input model.UserSignUpInput) error
+	AuthenticationService(request model.AuthenticationRequest) (model.Tokens, error)
+	RefreshTokenService(token model.Tokens, ip string) (model.Tokens, error)
 }
 
 type Handler struct {
@@ -24,6 +24,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	r := gin.Default()
 	r.POST("/singup", h.UserSingUpInput)
 	r.POST("/auth", h.AuthenticationHandler)
-	r.POST("/auth/refresh", h.RefreshToken)
+	r.POST("/auth/refresh", h.RefreshTokenHandler)
 	return r
 }

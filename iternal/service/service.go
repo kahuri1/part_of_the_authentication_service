@@ -9,11 +9,12 @@ import (
 )
 
 type Repo interface {
-	Create(ctx context.Context, user model.User) error
-	CheckUser(uuid string) error
-	CreateSession(auth model.AuthenticationRequest, refreshToken string) error
-	GetRefreshSessionByRefreshToken(token model.Tokens) (model.RefreshSession, error)
-	UpdateRefreshSession(auth model.AuthenticationRequest, refreshToken string) error
+	CreateRepo(ctx context.Context, user model.User) error
+	CheckUserRepo(uuid string) error
+	CheckSessionByUuidUserRepo(uuid string) (model.RefreshSession, error)
+	CreateSessionRepo(auth model.AuthenticationRequest, refreshToken string) error
+	GetRefreshSessionByRefreshTokenRepo(token model.Tokens) (model.RefreshSession, error)
+	UpdateRefreshSessionRepo(uuid, ip, refreshToken string) error
 }
 type passwordHasher interface {
 	Hash(password string) (string, error)
