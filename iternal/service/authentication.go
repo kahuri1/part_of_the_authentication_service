@@ -1,6 +1,7 @@
 package service
 
 import (
+	"encoding/base64"
 	"errors"
 	"fmt"
 	"github.com/golang-jwt/jwt/v5"
@@ -8,6 +9,7 @@ import (
 	"github.com/kahuri1/part_of_the_authentication_service/iternal/domain"
 	"github.com/kahuri1/part_of_the_authentication_service/iternal/model"
 	"github.com/spf13/viper"
+	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
@@ -35,7 +37,7 @@ func (s *Service) AuthenticationService(auth model.AuthenticationRequest) (model
 		err = s.repo.UpdateRefreshSessionRepo(dataSession.UserUuid, auth.Ip, refreshToken)
 		return model.Tokens{
 			AccessToken:  accessToken,
-			RefreshToken: refreshToken}, nil
+			RefreshToken: base64.StdEncoding.EncodeToString(refreshToken)}, nil
 	}
 
 	err = s.repo.CreateSessionRepo(auth, refreshToken)
@@ -45,7 +47,7 @@ func (s *Service) AuthenticationService(auth model.AuthenticationRequest) (model
 
 	return model.Tokens{
 		AccessToken:  accessToken,
-		RefreshToken: refreshToken}, nil
+		RefreshToken: base64.StdEncoding.EncodeToString(refreshToken)}, nil
 }
 
 func createJwt(auth model.AuthenticationRequest) (string, error) {
@@ -61,9 +63,14 @@ func createJwt(auth model.AuthenticationRequest) (string, error) {
 	return claims.SignedString([]byte(viper.GetString("key.secretKey")))
 }
 
-func createRefreshToken() (string, error) {
+func createRefreshToken() ([]byte, error) {
 	newUUID := uuid.New()
-	return newUUID.String(), nil
+	refreshToken := newUUID.String()
+	hashedToken, err := bcrypt.GenerateFromPassword([]byte(refreshToken), bcrypt.DefaultCost)
+	if err != nil {
+		return []byte{}, fmt.Errorf("failed to hash refresh token: %w", err)
+	}
+	return hashedToken, nil
 }
 
 func (s *Service) RefreshTokenService(Token model.Tokens, ip string) (model.Tokens, error) {
@@ -106,5 +113,5 @@ func (s *Service) RefreshTokenService(Token model.Tokens, ip string) (model.Toke
 
 	return model.Tokens{
 		AccessToken:  accessToken,
-		RefreshToken: refreshToken}, nil
+		RefreshToken: base64.StdEncoding.EncodeToString(refreshToken)}, nil
 }

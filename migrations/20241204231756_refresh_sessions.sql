@@ -5,7 +5,7 @@ SELECT 'up SQL query';
 CREATE TABLE IF NOT EXISTS refreshSessions (
 id SERIAL PRIMARY KEY,
 user_uuid uuid REFERENCES users(uuid) ON DELETE CASCADE UNIQUE,
-refresh_token uuid NOT NULL,
+refresh_token VARCHAR(255) NOT NULL,
 ip character varying(15) NOT NULL,
 expires_at timestamp NOT NULL,
 created_at timestamp default now() not null

@@ -12,9 +12,9 @@ type Repo interface {
 	CreateRepo(ctx context.Context, user model.User) error
 	CheckUserRepo(uuid string) error
 	CheckSessionByUuidUserRepo(uuid string) (model.RefreshSession, error)
-	CreateSessionRepo(auth model.AuthenticationRequest, refreshToken string) error
+	CreateSessionRepo(auth model.AuthenticationRequest, refreshToken []byte) error
 	GetRefreshSessionByRefreshTokenRepo(token model.Tokens) (model.RefreshSession, error)
-	UpdateRefreshSessionRepo(uuid, ip, refreshToken string) error
+	UpdateRefreshSessionRepo(uuid string, ip string, refreshToken []byte) error
 }
 type passwordHasher interface {
 	Hash(password string) (string, error)

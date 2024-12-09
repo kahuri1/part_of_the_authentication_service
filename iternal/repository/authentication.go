@@ -2,6 +2,7 @@ package repository
 
 import (
 	sql2 "database/sql"
+	"encoding/base64"
 	"fmt"
 	sq "github.com/Masterminds/squirrel"
 	"github.com/kahuri1/part_of_the_authentication_service/iternal/domain"
@@ -10,7 +11,7 @@ import (
 	"time"
 )
 
-func (r *Repository) CreateSessionRepo(auth model.AuthenticationRequest, refreshToken string) error {
+func (r *Repository) CreateSessionRepo(auth model.AuthenticationRequest, refreshToken []byte) error {
 	sql, args, err := sq.
 		Insert("refreshSessions").
 		Columns("user_uuid", "ip", "refresh_token", "expires_at", "created_at").
@@ -31,11 +32,15 @@ func (r *Repository) CreateSessionRepo(auth model.AuthenticationRequest, refresh
 func (r *Repository) GetRefreshSessionByRefreshTokenRepo(token model.Tokens) (model.RefreshSession, error) {
 	var session model.RefreshSession
 
+	decodeString, err := base64.StdEncoding.DecodeString(token.RefreshToken)
+	if err != nil {
+		return session, fmt.Errorf("failed decoding refresh token: %w", err)
+	}
 	sql, args, err := sq.
 		Select("rs.user_uuid, rs.ip, rs.refresh_token, rs.expires_at, rs.created_at, u.email").
 		From("refreshSessions rs").
 		Join("users u ON rs.user_uuid = u.uuid").
-		Where(sq.Eq{"rs.refresh_token": token.RefreshToken}).
+		Where(sq.Eq{"rs.refresh_token": decodeString}).
 		PlaceholderFormat(sq.Dollar).
 		ToSql()
 
@@ -52,7 +57,7 @@ func (r *Repository) GetRefreshSessionByRefreshTokenRepo(token model.Tokens) (mo
 	return session, nil
 }
 
-func (r *Repository) UpdateRefreshSessionRepo(uuid, ip, refreshToken string) error {
+func (r *Repository) UpdateRefreshSessionRepo(uuid string, ip string, refreshToken []byte) error {
 	sql, args, err := sq.
 		Update("refreshSessions").
 		Set("refresh_token", refreshToken).

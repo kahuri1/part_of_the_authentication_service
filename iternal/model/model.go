@@ -54,7 +54,7 @@ type AuthenticationRequest struct {
 
 type RefreshSession struct {
 	UserUuid     string
-	RefreshToken string
+	RefreshToken []byte
 	Ip           string
 	ExpiresAt    time.Time
 	CreatedAt    time.Time
