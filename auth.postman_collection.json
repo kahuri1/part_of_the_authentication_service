@@ -1,0 +1,64 @@
+{
+	"info": {
+		"_postman_id": "22bf0acb-d7d6-477b-b8aa-adee9f472903",
+		"name": "auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "26172056"
+	},
+	"item": [
+		{
+			"name": "singup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"dasdasd\",\r\n    \"email\": \"kahuri2016@yandex.ru\",\r\n    \"password\": \"123d@#Edsad\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/singup"
+			},
+			"response": []
+		},
+		{
+			"name": "auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"uuid\" : \"dff723ba-4da7-4c55-9f07-27121ec53385\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/auth"
+			},
+			"response": []
+		},
+		{
+			"name": "refreshtoken",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refresh_token\": \"JDJhJDEwJDAzM1NOcHRLTS9XL2tyLjBudEE2UWVMeEtManVIbnRGVDJaWGNvTW5OY0lMQzlJQ3JjLzVX\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/auth/refresh"
+			},
+			"response": []
+		}
+	]
+}
