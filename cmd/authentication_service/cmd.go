@@ -34,7 +34,7 @@ func main() {
 		logrus.Errorf("Failed initialization db: %s", err.Error())
 	}
 	repos := repository.NewRepository(db)
-	salt := "#$%&@^#HDJhHDY#@"
+	salt := "#$%&@^#HDJhsdfDFWFWEFDSFWEHDY#@"
 	hasher := hash.NewSHA1Hasher(salt)
 	otpGenerator := otp.NewGOTPGenerator()
 	emailSender := email.NewSMTPEmailSender("aspmx.l.google.com", "25",
