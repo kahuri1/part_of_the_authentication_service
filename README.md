@@ -86,17 +86,17 @@ REST маршруты
    - **Параметры**: Refresh токен в теле запроса.
    - **Ответ**: Новая пара токенов (Access и Refresh).
 пример запроса
-     ```json
+```json
 {
     "refresh_token": "JDJhJDEwJG1VSTJuNmNhRi9OUU1TaS5CTk5VcC5PZVU3MWlSdWRXN25QY2g1S09ZN3Y4NzdtWGhZWWJ1"
 }
-     ```
+ ```
 пример ответа
-     ```json
+ ```json
 {
     "tokens": {
         "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIyMDI0LTEyLTEwVDE3OjU0OjI4LjU1NzEyMyswMzowMCIsImlhdCI6MTczMzg0MTU2OCwiaXAiOiIxMjcuMC4wLjEiLCJpc3MiOiJ0b2RvLWFwcCIsInN1YiI6ImRmZjcyM2JhLTRkYTctNGM1NS05ZjA3LTI3MTIxZWM1MzM4NSJ9.Mvct6Sa3UuO6wLBb5lgk0qODA1PmtmVwynq4lxiyeUw",
         "refresh_token": "JDJhJDEwJGJ3dWtnM1R3NWFNenlEYTlRMHhqM09WSEU5YkhsdEkyUWpZajJSWDdWQWZuOU5MaE5Wdk9l"
     }
 }
-     ```
+ ```
