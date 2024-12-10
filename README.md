@@ -65,13 +65,37 @@ REST маршруты
      ```bash
      http://localhost:8000/auth
      ```
+     Пример запроса
 ```json
   {
     "uuid" : "dff723ba-4da7-4c55-9f07-27121ec53385"
   }
+```
+пример ответа
+```json
+{
+    "tokens": {
+        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIyMDI0LTEyLTEwVDE3OjUzOjMzLjA1OTQ5ODMrMDM6MDAiLCJpYXQiOjE3MzM4NDE1MTMsImlwIjoiOjoxIiwiaXNzIjoidG9kby1hcHAiLCJzdWIiOiJkZmY3MjNiYS00ZGE3LTRjNTUtOWYwNy0yNzEyMWVjNTMzODUifQ.QlPTA9eXZctJryDtOOvHh_k6dFiqXEP_DOVMFashSME",
+        "refresh_token": "JDJhJDEwJG1VSTJuNmNhRi9OUU1TaS5CTk5VcC5PZVU3MWlSdWRXN25QY2g1S09ZN3Y4NzdtWGhZWWJ1"
+    }
+}
 ```
 2. **Refresh токенов**
    - **Метод**: `POST`
    - **Маршрут**: `/auth/refresh`
    - **Параметры**: Refresh токен в теле запроса.
    - **Ответ**: Новая пара токенов (Access и Refresh).
+     ```json
+{
+    "refresh_token": "JDJhJDEwJG1VSTJuNmNhRi9OUU1TaS5CTk5VcC5PZVU3MWlSdWRXN25QY2g1S09ZN3Y4NzdtWGhZWWJ1"
+}
+     ```
+
+     ```json
+{
+    "tokens": {
+        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOiIyMDI0LTEyLTEwVDE3OjU0OjI4LjU1NzEyMyswMzowMCIsImlhdCI6MTczMzg0MTU2OCwiaXAiOiIxMjcuMC4wLjEiLCJpc3MiOiJ0b2RvLWFwcCIsInN1YiI6ImRmZjcyM2JhLTRkYTctNGM1NS05ZjA3LTI3MTIxZWM1MzM4NSJ9.Mvct6Sa3UuO6wLBb5lgk0qODA1PmtmVwynq4lxiyeUw",
+        "refresh_token": "JDJhJDEwJGJ3dWtnM1R3NWFNenlEYTlRMHhqM09WSEU5YkhsdEkyUWpZajJSWDdWQWZuOU5MaE5Wdk9l"
+    }
+}
+     ```
