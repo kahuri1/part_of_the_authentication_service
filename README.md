@@ -100,3 +100,23 @@ REST маршруты
     }
 }
  ```
+
+
+## JWT token хранит следующию информацию
+**HEADER:ALGORITHM & TOKEN TYPE**
+```bash
+{
+  "alg": "HS256",
+  "typ": "JWT"
+}
+```
+**PAYLOAD**
+```bash
+{
+  "exp": "2024-12-10T17:54:28.557123+03:00",
+  "iat": 1733841568,
+  "ip": "127.0.0.1",
+  "iss": "todo-app",
+  "sub": "dff723ba-4da7-4c55-9f07-27121ec53385"
+}
+```
