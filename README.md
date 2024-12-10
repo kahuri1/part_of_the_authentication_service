@@ -85,12 +85,13 @@ REST маршруты
    - **Маршрут**: `/auth/refresh`
    - **Параметры**: Refresh токен в теле запроса.
    - **Ответ**: Новая пара токенов (Access и Refresh).
+пример запроса
      ```json
 {
     "refresh_token": "JDJhJDEwJG1VSTJuNmNhRi9OUU1TaS5CTk5VcC5PZVU3MWlSdWRXN25QY2g1S09ZN3Y4NzdtWGhZWWJ1"
 }
      ```
-
+пример ответа
      ```json
 {
     "tokens": {
